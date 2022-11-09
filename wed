@@ -1,0 +1,40 @@
+# importing the required libraries
+import pandas as pd
+import matplotlib.pyplot as plt
+
+pd.set_option('display.max_rows', None, 'display.max_columns', None)
+
+#importing the csv file
+df = pd.read_csv('Cleaned_Laptop_data.csv')
+
+df.head()
+
+df.info()
+
+df.isna().sum()
+
+df.dropna(inplace=True)
+
+df.head()
+
+df_brands = df[df['processor_brand'].isin(['Intel', 'AMD', 'Apple'])]
+
+df_brands.groupby('processor_brand')['ratings'].mean().sort_values().plot(kind='line', label='Ratings')
+df_brands.groupby('processor_brand')['reviews'].mean().sort_values().plot(kind='line', label='Reviews')
+plt.legend()
+plt.title('Average Ratings VS Reviews in brands')
+plt.show()
+
+def line_plot_brands(brand_names, data):
+  """ 
+  The function is created which takes the input of processor brands names
+  in the form of list and shows the line plot of each brand with distict line between
+  the number of reviews and ratings.
+
+  """
+  df_brands = data[data['processor_brand'].isin(brand_names)]
+  df_brands.groupby('processor_brand')['ratings'].mean().sort_values().plot(kind='line', label='Ratings')
+  df_brands.groupby('processor_brand')['reviews'].mean().sort_values().plot(kind='line', label='Reviews')
+  plt.legend()
+  plt.title('Average Ratings VS Reviews in brands')
+  plt.show()
